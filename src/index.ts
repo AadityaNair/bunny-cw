@@ -11,8 +11,19 @@
  * Learn more at https://developers.cloudflare.com/workers/
  */
 
+import { handleQuery } from './commands';
+
 export default {
-	async fetch(request, env, ctx): Promise<Response> {
-		return new Response('Hello World!');
+	async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
+		const url = new URL(request.url);
+		const q = url.searchParams.get('q');
+
+		if (q) {
+			const redirectUrl = handleQuery(q);
+			return Response.redirect(redirectUrl, 302);
+		} else {
+			return new Response('Please provide a "q" parameter in the URL. Example: ?q=yourquery');
+		}
 	},
 } satisfies ExportedHandler<Env>;
+
