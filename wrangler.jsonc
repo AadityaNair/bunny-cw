@@ -12,7 +12,7 @@
 	},
 	"routes": [
     	{
-      		"pattern": "shop.example.com",
+      		"pattern": "bunny.amnair.dev",
       		"custom_domain": true
     	}
   	]
