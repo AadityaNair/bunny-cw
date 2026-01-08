@@ -5,6 +5,7 @@ const ALIASES = {
 	"newsheet": "https://docs.google.com/spreadsheets/create",
 	"docs": "https://docs.google.com/document",
 	"sheets": "https://docs.google.com/spreadsheets",
+	"hn": "https://news.ycombinator.com",
 }
 
 
