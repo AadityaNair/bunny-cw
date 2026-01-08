@@ -16,20 +16,25 @@ const ALIASES = {
 export function handleQuery(q: string): string {
 	// SPECIAL case handling
 	if (q.startsWith('r/')) {
-		return redditSearch(q.substring(3))
+		return redditSubreddit(q.substring(3))
 	}
 
 	//ALIASES forwarding
+	if (q in ALIASES) {
+		return ALIASES[q as keyof typeof ALIASES];
+	}
 
 
 	// GENERIC cases of "<command> <argument>"
 	const command = q.split(' ')[0];
-	const args = q.substring(command.length + 2)
+	const args = q.substring(command.length + 1)
 	switch (command) {
 		case 'gh':
-			return `https://github.com/search?q=${encodeURIComponent(args)}`;
+			return githubRepoOrSearch(args);
 		case 'npm':
 			return `https://www.npmjs.com/search?q=${encodeURIComponent(args)}`;
+		case 'r': // New case for Reddit search
+			return redditSearchQuery(args);
 	}
 	return googleSearch(q);
 }
@@ -42,9 +47,24 @@ export function googleSearch(q: string): string {
 	return `https://www.google.com/search?q=${encodeURIComponent(search_string)}`;
 }
 
-export function githubRepoOrSearch(q: string): string {
 
+export function githubRepoOrSearch(q: string): string {
+	const parts = q.split('/');
+	if (parts.length === 2 && parts[0].length > 0 && parts[1].length > 0) {
+		// Looks like username/repo
+		const [username, repo] = parts;
+		return `https://github.com/${username}/${repo}`;
+	} else {
+		// Otherwise, perform a search
+		return `https://github.com/search?q=${encodeURIComponent(q)}`;
+	}
 }
 
-export function redditSearch(subreddit: string): string {
+export function redditSubreddit(subreddit: string): string {
+	return `https://www.reddit.com/r/${encodeURIComponent(subreddit)}`;
+}
+
+// New function for Reddit search queries
+export function redditSearchQuery(query: string): string {
+	return `https://www.reddit.com/search?q=${encodeURIComponent(query)}`;
 }
