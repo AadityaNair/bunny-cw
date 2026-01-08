@@ -35,6 +35,21 @@ export function handleQuery(q: string): string {
 			return `https://www.npmjs.com/search?q=${encodeURIComponent(args)}`;
 		case 'r': // New case for Reddit search
 			return redditSearchQuery(args);
+		case 'wiki':
+			if (args) {
+				return `https://en.wikipedia.org/wiki/Special:Search?search=${encodeURIComponent(args)}`;
+			}
+			return 'https://www.wikipedia.org/';
+		case 'yt':
+			if (args) {
+				return `https://www.youtube.com/results?search_query=${encodeURIComponent(args)}`;
+			}
+			return 'https://www.youtube.com/';
+		case 'az':
+			if (args) {
+				return `https://www.amazon.co.uk/s?k=${encodeURIComponent(args)}`;
+			}
+			return 'https://www.amazon.co.uk/';
 	}
 	return googleSearch(q);
 }
