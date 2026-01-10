@@ -17,7 +17,7 @@ const ALIASES = {
 export function handleQuery(q: string): string {
 	// SPECIAL case handling
 	if (q.startsWith('r/')) {
-		return redditSubreddit(q.substring(3))
+		return redditSubreddit(q.substring(2))
 	}
 
 	//ALIASES forwarding
