@@ -58,7 +58,7 @@ export function handleQuery(q: string): string {
 export function googleSearch(q: string): string {
 	var search_string: string = q;
 	if (q.startsWith('g ')) {
-		search_string = q.split(' ')[1]
+		search_string = q.substring(2)
 	}
 	return `https://www.google.com/search?q=${encodeURIComponent(search_string)}`;
 }
